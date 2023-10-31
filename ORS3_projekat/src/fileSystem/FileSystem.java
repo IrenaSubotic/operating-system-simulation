@@ -52,7 +52,16 @@ public class FileSystem {
 			e.printStackTrace();
 		}
 	}
-	
+	public static void listFiles() {
+		System.out.println("Current folder "+ currentFolder.getName()+" contains:");
+		System.out.println("Type\t\tName");
+		for(TreeItem<File> file : Shell.tree.getTreeItem().getChildren()) {
+			  if(file.getValue().isDirectory())
+				  System.out.println("Folder\t\t"+file.getValue().getName());
+			  else 
+				  System.out.println("File\t\t"+ file.getValue().getName());
+		}
+	}
 	public static void changeDirectory(String directory) {
 		if(directory.equals("..") && !currentFolder.equals(rootFolder)) {
 			currentFolder=currentFolder.getParentFile();

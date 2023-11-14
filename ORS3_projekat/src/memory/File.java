@@ -1,6 +1,6 @@
 package memory;
 
-public class File {
+public class FileForString {
 
 	private String name;
 	private int size;
@@ -8,7 +8,7 @@ public class File {
 	private Pointer start;
 	private int length;
 	
-	public File(String name, byte[] content) {
+	public FileForString(String name, byte[] content) {
 		this.name=name;
 		this.content=content;
 		this.size=content.length;

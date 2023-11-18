@@ -90,35 +90,6 @@ public class Process {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
-	public static void main(String[] args) {
-		Process p1=new Process("pomocni");
-		System.out.println(p1.pid);
-		Process p2=new Process("stepen");
-		System.out.println(p2.pid);
-		Process p3=new Process("faktorijel");
-		System.out.println(p3.pid);
-		Process p4=new Process("suma");
-		System.out.println(p4.pid);
-		Process p5=new Process("pom");
-		System.out.println(p5.pid);
-		System.out.println("==================");
-		System.out.println(p1.executingTime);
-		System.out.println(p2.executingTime);
-		System.out.println(p3.executingTime);
-		System.out.println(p4.executingTime);
-		System.out.println(p5.executingTime);
-		System.out.println("==================");
-		ProcessScheduler.sortProcesses();
-		for(Process process:ProcessScheduler.readyQueue) {
-			System.out.println(process.getPId());
-		}
-		System.out.println("==================");
-		ProcessScheduler.execute();
-		System.out.println("==================");
-		for(int i=0;i<p1.instructions.size();i++) {
-			System.out.println(p1.instructions.get(i));
-		}
-	}
 	
 
 	

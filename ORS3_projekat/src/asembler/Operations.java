@@ -104,7 +104,20 @@ public class Operations {
     	Register r=getRegister(reg);
     	r.value=r.value-1;
     }
-	
+	public static void hlt() {
+    	//Shell.currentlyExecuting.setProcessState(ProcessState.DONE);
+    	
+    }
+    public static void jmp(String adr) {
+    	 int temp=Integer.parseInt(adr,2);
+    	 if(temp>=Shell.limit) {
+    		// Shell.currentlyExecuting.setState(ProcessState.TERMINATED)
+    		// System.out.println("Error with address in process": Shell.currentlyExecuting.getName());
+    		 //return;
+    		 
+    	 }
+    	 //Shel.PC=temp;
+    }
 	
 	
 	private static Register getRegister(String address) {

@@ -7,7 +7,7 @@ public class SecondaryMemory {
 	private final int SIZE=2048;
 	private static Block[] blocks;
 	private int numberOfBlocks;
-	private ArrayList<File> listOfFiles=new ArrayList<>();
+	private ArrayList<FileInMemory> listOfFiles=new ArrayList<>();
 	
 	public SecondaryMemory() {
 		numberOfBlocks=SIZE / Block.getSize();
@@ -17,7 +17,7 @@ public class SecondaryMemory {
 			blocks[i]=block;
 		}
 	}
-	public void save(File file) {
+	public void save(FileInMemory file) {
 		int numberOfFileBlocks;
 		Pointer left=null;
 		int reminder=file.getSize() % Block.getSize();
@@ -58,7 +58,7 @@ public class SecondaryMemory {
 		}
 			
 	}
-	public void delete(File file) {
+	public void delete(FileInMemory file) {
 		if(!listOfFiles.contains(file))
 			System.out.println("THIS FILE ISN'T IN SECONDARY MEMORY!");
 		else {
@@ -72,9 +72,11 @@ public class SecondaryMemory {
 				temp.next=null;
 				p.block.setOccupied(false);
 			}
+			int index=listOfFiles.indexOf(file);
+			listOfFiles.remove(index);
 		}
 	}
-	public String read(File file) {
+	public String read(FileInMemory file) {
 		String result="";
 		Pointer p=file.getStart();
 		byte[] content=p.block.getContent();
@@ -93,9 +95,9 @@ public class SecondaryMemory {
 		System.out.println(spacing);
 		System.out.println("Name\t\tStart\t\tLength");
 		System.out.println(spacing);
-		for(File file: listOfFiles) {
-			System.out.println(file.getName()+"\t\t"+file.getStart().block.getAddress()+"\t\t"+file.getLength());
-		}
+		for(FileInMemory file: listOfFiles) {
+			System.out.println(file.getName()+"\t\t"+file.getStart().block.getAddress()+"\t\t"+file.getLength()
+		);}
 	}
 	public int numberOfFreeBlocks() {
 		int counter=0;
@@ -104,22 +106,5 @@ public class SecondaryMemory {
 				counter++;
 		}
 		return counter;
-	}
-	public static void main(String[] args) {
-		SecondaryMemory sm=new SecondaryMemory();
-		byte[] content1= {80,65,78,75,9,9,9,9,9,9,9,9,9,9};
-		File fim1=new File("first",content1);
-		sm.save(fim1);
-		byte[] content2= {81,65,78,25,5,7,73,2,22,33,9,9,9,9,9,9};
-		File fim2=new File("second",content2);
-		sm.save(fim2);
-		byte[] content3= {81,65};
-		File fim3=new File("third",content3);
-		sm.save(fim3);
-		byte[] content4= {81,65,20};
-		File fim4=new File("fourth",content4);
-		sm.save(fim4);
-		sm.print();
-		System.out.println(sm.read(fim3));
 	}
 }

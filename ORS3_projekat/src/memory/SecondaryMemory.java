@@ -107,4 +107,10 @@ public class SecondaryMemory {
 		}
 		return counter;
 	}
+	public boolean isContaining(String name) {
+		for(FileInMemory f: listOfFiles) 
+			if(f.getName().equals(name))
+				return true;
+			return false;
+	}
 }

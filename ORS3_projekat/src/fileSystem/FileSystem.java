@@ -38,20 +38,21 @@ public class FileSystem {
 				if(Files.isDirectory(path))
 					createTree(newItem);
 				else {
-					
-					/************************/
-					
-				}
-				
-				
+					//ucitava fajlove u sekundarnu memoriju
+					byte [] content=Files.readAllBytes(newItem.getValue().toPath());
+					// FileForStoring newItem=new FileForStoring(newItem.getValue().getName(), content);
+					//if(!Shell.memory.contains(newItem.getValue().getName()))
+					  //Shell.memory.save(newFile)
+								
+				}			
 			}
-			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
 	public static void listFiles() {
 		System.out.println("Current folder "+ currentFolder.getName()+" contains:");
 		System.out.println("Type\t\tName");
@@ -62,6 +63,7 @@ public class FileSystem {
 				  System.out.println("File\t\t"+ file.getValue().getName());
 		}
 	}
+	
 	public static void changeDirectory(String directory) {
 		if(directory.equals("..") && !currentFolder.equals(rootFolder)) {
 			currentFolder=currentFolder.getParentFile();
@@ -74,6 +76,7 @@ public class FileSystem {
 		}
 		
 	}
+	
 	
 	public static void makeDirectory(String directory) {
 		File folder=new File(currentFolder.getAbsolutePath() + "\\" + directory);
@@ -99,7 +102,33 @@ public class FileSystem {
     		}
     	}
     }
-	
+    /*
+     public static void createFile(Process p){
+         String name=p.getName.substring(0, p.getName().indexOf('.')) + "_output";
+         File newFile=new File(p.getPath().getParent() + "\\" + name + ".txt");
+         try{
+              newFile.createNewFile();
+              FileWriter fw=new FileWriter(newFile);
+              fw.write("Rezultat izvrsavanja: " + Operations.R4.value);
+              fw.close();
+         }catch(IOException e){
+         System.out.println("Error while creating file!");
+         }
+     }
+     
+     */
+      public static void deleteFile(String name){
+      for(TreeItem<File> file: Shell.tree.getTreeItem().getChildren()) {
+    	  if(file.getValue().getName().equals(name) && !file.getValue().isDirectory()) {
+    		  file.getValue().delete();
+    		  //if(Shell.memory.contains(name)){
+    		  //Shell.memory.delete(Shell.memory.getFile(name))
+    		  
+    	  }
+      }
+      
+      }
+     
 	public File getCurrentFolder() {
 		return currentFolder;
 	}
@@ -107,3 +136,4 @@ public class FileSystem {
 	
 
 }
+

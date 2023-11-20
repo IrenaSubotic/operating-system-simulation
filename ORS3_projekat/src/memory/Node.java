@@ -18,16 +18,6 @@ private int id;
 		usage=0;
 		id=-1;
 	}
-	public void searchTree() {
-		
-	}
-	
-	public void insertNode() {
-		
-	//	if(root.getSize()!=suitablePartition(this.getSize())){
-			
-		//}
-	}
 public int getSize() {
 	return this.size;
 }

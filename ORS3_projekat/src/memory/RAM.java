@@ -27,9 +27,4 @@ public static void print() {
 		System.out.print(ram[i]+" ");
 	}
 }
-public static void main(String[] args) {
-	RAM ram=new RAM();
-	ram.initialize();
-	ram.print();
-}
 }

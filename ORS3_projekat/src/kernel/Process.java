@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import memory.MemoryManager;
+import shell.Shell;
 
 public class Process {
 	private int pid;
@@ -18,8 +21,10 @@ public class Process {
 	private int executingTime;
 	private ArrayList<String> instructions = new ArrayList<String>();
 	private int startAddress;
+	private int size;
 	private int pcValue = -1;
 	private int[] valuesOfRegisters;
+	private Path path;
 
 	
 	public Process(String path) {
@@ -27,14 +32,32 @@ public class Process {
 		ProcessScheduler.readyQueue.add(this);
 		this.pid=ProcessScheduler.allProcesses.size();
 		state=ProcessState.READY;
+	//	this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
 		name=path;
-		writeToInstructionList(path);
+	//	readFile();
+		this.size = instructions.size();
 		this.executingTime=calculateExecutingTime();
 		valuesOfRegisters = new int[4];
 	
 		
 	
 	}
+	/*public void readFile() {
+		String data = Shell.disk.readFile(Shell.disk.getFile(name));
+		String [] commands = data.split("\\n");
+		for(String command : commands) {
+			if( !command.equals(commands[commands.length-1]) ) {
+				command = command.substring(0, command.length() -1);
+			}
+			else {
+				if( command.length() > 3 )
+					command = command.substring(0,3);
+			}
+		String machineIstruction = Shell.assemblerToMachineInstruction(command);
+		instructions.add(machineIstruction);
+		}
+	
+	}*/
 	
 	public ArrayList<String> getInstructions() {
 		return instructions;
@@ -42,10 +65,22 @@ public class Process {
 	public int getPId() {
 		return pid;
 	}
+	public void setValuesOfRegisters(int[] valuesOfRegisters) {
+		for (int i = 0; i < valuesOfRegisters.length; i++)
+			this.valuesOfRegisters[i] = valuesOfRegisters[i];
+	}
+
 	
 	public int getPcValue() {
 		return pcValue;
 	}
+	public Path getPath() {
+		return path;
+	}
+	public String getName() {
+		return name;
+	}
+	
 	public void setStartAddress(int address) {
 		this.startAddress=address;
 	 
@@ -58,19 +93,6 @@ public class Process {
 	public int getExecutingTime() {
 		return executingTime;
 	}
-	private void writeToInstructionList(String path) {
-		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-			String instruction = "";
-			while ((instruction = br.readLine()) != null) {
-				instructions.add(instruction);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void block() {
 		if (this.state == ProcessState.READY) {
 			this.state = ProcessState.BLOCKED;
@@ -90,6 +112,7 @@ public class Process {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
+	
 	
 
 	

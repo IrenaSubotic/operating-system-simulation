@@ -113,4 +113,10 @@ public class SecondaryMemory {
 				return true;
 			return false;
 	}
+	public FileInMemory getFile(String name) {
+		for(FileInMemory f : listOfFiles)
+			if(f.getName().equals(name))
+				return f;
+		return null;
+	}
 }

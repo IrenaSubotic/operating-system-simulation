@@ -1,13 +1,16 @@
 package fileSystem;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import asembler.Operations;
 import javafx.scene.control.TreeItem;
+import memory.FileInMemory;
 import shell.Shell;
 
 public class FileSystem {
@@ -40,9 +43,9 @@ public class FileSystem {
 				else {
 					//ucitava fajlove u sekundarnu memoriju
 					byte [] content=Files.readAllBytes(newItem.getValue().toPath());
-					// FileForStoring newItem=new FileForStoring(newItem.getValue().getName(), content);
-					//if(!Shell.memory.contains(newItem.getValue().getName()))
-					  //Shell.memory.save(newFile)
+					  FileInMemory newFile=new FileInMemory(newItem.getValue().getName(), content);
+					  if(!Shell.memory.isContaining(newItem.getValue().getName()))
+					     Shell.memory.save(newFile);
 								
 				}			
 			}
@@ -102,9 +105,9 @@ public class FileSystem {
     		}
     	}
     }
-    /*
+    
      public static void createFile(Process p){
-         String name=p.getName.substring(0, p.getName().indexOf('.')) + "_output";
+         String name=p.getName().substring(0, p.getName().indexOf('.')) + "_output";
          File newFile=new File(p.getPath().getParent() + "\\" + name + ".txt");
          try{
               newFile.createNewFile();
@@ -116,17 +119,16 @@ public class FileSystem {
          }
      }
      
-     */
+     
       public static void deleteFile(String name){
       for(TreeItem<File> file: Shell.tree.getTreeItem().getChildren()) {
-    	  if(file.getValue().getName().equals(name) && !file.getValue().isDirectory()) {
+    	  if(file.getValue().getName().equals(name) && !file.getValue().isDirectory()) 
     		  file.getValue().delete();
-    		  //if(Shell.memory.contains(name)){
-    		  //Shell.memory.delete(Shell.memory.getFile(name))
+    		    if(Shell.memory.isContaining(name)){
+    		        Shell.memory.delete(Shell.memory.getFile(name));
     		  
     	  }
       }
-      
       }
      
 	public File getCurrentFolder() {

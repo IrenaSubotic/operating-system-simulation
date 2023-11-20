@@ -8,6 +8,16 @@ public static void initialize() {
 	for(int i=0;i<SIZE;i++)
 		ram[i]=-1;
 }
+public static void set(int start,int[] data) {
+	for(int i=start;i<data.length + start;i++) {
+		ram[i]=data[i-start];
+	}
+}
+public static void remove(int start, int[] data) {
+	for(int i=start;i<data.length + start;i++) {
+		ram[i]=-1;
+	}
+}
 public static void print() {
 	System.out.println("*********************RAM*********************");
 	for(int i=0;i<SIZE;i++) {

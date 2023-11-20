@@ -27,13 +27,13 @@ public class Process {
 	private Path path;
 
 	
-	public Process(String path) {
+	public Process(String name) {
 		ProcessScheduler.allProcesses.add(this);
 		ProcessScheduler.readyQueue.add(this);
-		this.pid=ProcessScheduler.allProcesses.size();
+		
 		state=ProcessState.READY;
 	//	this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
-		name=path;
+		this.name=name;
 	//	readFile();
 		this.size = instructions.size();
 		this.executingTime=calculateExecutingTime();
@@ -112,7 +112,6 @@ public class Process {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
-	
 	
 
 	

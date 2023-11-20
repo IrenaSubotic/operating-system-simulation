@@ -12,13 +12,15 @@ public class Partition {
  private static ArrayList<Partition> partitions=new ArrayList<>();
 
  
- public Partition(Tree tree,Process process) {
+ public Partition(Process process) {
 	this.process=process;
 	this.used=process.getInstructions().size();
 	data=new int[used];
-	tree.insertNode(process);
-	Node n=tree.findGivenNodeByName(tree.root,process);
-	size=n.getSize();
+	size=Tree.suitablePartition(used);
+	for(int i=0;i<used;i++) {
+		String temp=process.getInstructions().get(i);
+		data[i]=i;
+	}
 	partitions.add(this);
  }
 
@@ -49,4 +51,11 @@ public static Partition getPartitionByAddress(int address) {
  public Process getProcess() {
 	 return process;
  }
+ public static void main(String[] args) {
+	 Node root=new Node(1024);
+	 Tree tree=new Tree(root);
+	Process pr=new Process("pom");
+	Partition p=new Partition(pr);
+	System.out.println(p.getSize());
+}
 }

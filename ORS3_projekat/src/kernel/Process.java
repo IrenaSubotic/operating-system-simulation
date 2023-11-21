@@ -30,7 +30,7 @@ public class Process {
 	public Process(String name) {
 		ProcessScheduler.allProcesses.add(this);
 		ProcessScheduler.readyQueue.add(this);
-		
+		this.pid=ProcessScheduler.allProcesses.size();
 		state=ProcessState.READY;
 	//	this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
 		this.name=name;
@@ -112,6 +112,7 @@ public class Process {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
+	
 	
 
 	

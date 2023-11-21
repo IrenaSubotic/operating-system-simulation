@@ -1,7 +1,10 @@
 package shell;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -18,15 +21,41 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 public class GUI extends Application {
+	private static String textToShow;
 	
 	private static TextArea part1=new TextArea();
 	private static TextField part2=new TextField();
 	
+	private PipedInputStream input= new PipedInputStream();
+	private PipedOutputStream output= new PipedOutputStream();
+	
+	private static StringBuilder outStringBuilder=new StringBuilder();
 	
 public static void main(String []args) {
+	Shell.boot();
 	launch(args);
+	
 }
-public void start(Stage primaryStage) throws FileNotFoundException {
+public static void clearTerminal() {
+	
+	part1.setText("");
+	part2.clear();
+	
+}
+
+public static void addTextToPart1() {
+	
+	if(outStringBuilder.length()>0) {
+		part1.appendText(outStringBuilder.toString());
+		outStringBuilder=new StringBuilder();
+	}
+}
+
+
+public void start(Stage primaryStage) throws IOException {
+	
+	input.connect(output);
+	textToShow="";
 	
 	InputStream stream =new FileInputStream("src/picture.jpg");
 	Image image=new Image(stream);
@@ -67,4 +96,5 @@ public void start(Stage primaryStage) throws FileNotFoundException {
 	primaryStage.show();
 	
 }
+
 }

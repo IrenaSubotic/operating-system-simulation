@@ -152,6 +152,161 @@ public class Shell {
     		  PC++;
  
       }
+       public static String assemblerToMachineInstruction(String line) {
+    	  String instruction="";
+    	  String [] command=line.split("[ |, ]");
+    	  
+    	  //prevod u operaciju
+    	  if(command[0].equals("HLT")) {
+    		  instruction+=Operations.hlt;
+    	  } 
+    	  else if(command[0].equals("MOV")) {
+    		  instruction+=Operations.mov;
+    	  }
+    	  else if(command[0].equals("ADD")) {
+    		  instruction+=Operations.add;
+    	  }
+    	  else if(command[0].equals("SUB")) {
+    		  instruction+=Operations.sub;
+    	  }   	  
+    	  else if(command[0].equals("MUL")) {
+    		  instruction+=Operations.mul;
+    	  }
+    	  else if(command[0].equals("JMP")) {
+    		  instruction+=Operations.jmp;
+    	  }
+    	  else if(command[0].equals("INC")) {
+    		  instruction+=Operations.inc;
+    	  }
+    	  else if(command[0].equals("DEC")) {
+    		  instruction+=Operations.dec;
+    	  }
+    	  else if(command[0].equals("DIV")) {
+    		  instruction+=Operations.div;
+    	  }
+    	  else if(command[0].equals("JMPE")) {
+    		  instruction+=Operations.jmpe;
+    	  }
+    	  else if(command[0].equals("JMPD")) {
+    		  instruction+=Operations.jmpd;
+    	  }
+    	  
+    	  //obrada ukoliko je operacija HLT
+    	  if(command[0].equals("HLT")) {
+    		  return instruction;
+    	  }
+    	  //obrada ukoliko je operacija JMP
+    	  else if(command[0].equals("JMP")) {
+    		  instruction+=toBinary(command[1]);
+    		  return instruction;
+    	  }
+    	  
+    	  // obrada ukoliko je operacija JMPE ili JMPD
+    	  else if(command[0].equals("JMPE") || command[0].equals("JMPD")) {
+    		  //registar
+    		  if(command[1].equals("R1")) {
+    			  instruction+=Constants.R1;
+    		  }
+    		  else if(command[1].equals("R2")) {
+    			  instruction+=Constants.R2;
+    		  }
+    		  if(command[1].equals("R3")) {
+    			  instruction+=Constants.R3;
+    		  }
+    		  if(command[1].equals("R4")) {
+    			  instruction+=Constants.R4;
+    		  }
+    		  // provjera da li je registar ili vrijednost
+    		  if(!command[2].equals("R1") || !command[2].equals("R2") || !command[2].equals("R3") || !command[2].equals("R4")) {
+    			  instruction+=toBinary(command[2]);
+    		  }
+    		  else {
+    			  if(command[2].equals("R1")) {
+        			  instruction+=Constants.R1;
+        		  }
+        		  else if(command[2].equals("R2")) {
+        			  instruction+=Constants.R2;
+        		  }
+        		  if(command[2].equals("R3")) {
+        			  instruction+=Constants.R3;
+        		  }
+        		  if(command[2].equals("R4")) {
+        			  instruction+=Constants.R4;
+        		  }
+    			  
+    		  }
+    		  //adresa
+    		  instruction+=toBinary(command[3]);
+    		  return instruction;
+    	  }
+    	  
+    	  //na prvoj poziciji je operacija DEC ili INC
+    	  else if(command[0].equals("DEC") || command[0].equals("INC")) {
+    		  
+    		  //obrada registra
+    		  if(command[1].equals("R1")) {
+    			  instruction+=Constants.R1;
+    		  }
+    		  else if(command[1].equals("R2")) {
+    			  instruction+=Constants.R2;
+    		  }
+    		  if(command[1].equals("R3")) {
+    			  instruction+=Constants.R3;
+    		  }
+    		  if(command[1].equals("R4")) {
+    			  instruction+=Constants.R4;
+    		  }
+    		  return instruction;
+    	  }
+    	  //provjera ako na obe pozicije imamo registre
+    	  else if(command[2].equals("R1") || command[2].equals("R2") || command[2].equals("R3") || command[2].equals("R4")) {
+    		  if(command[1].equals("R1")) {
+    			  instruction+=Constants.R1;
+    		  }
+    		  else if(command[1].equals("R2")) {
+    			  instruction+=Constants.R2;
+    		  }
+    		  if(command[1].equals("R3")) {
+    			  instruction+=Constants.R3;
+    		  }
+    		  if(command[1].equals("R4")) {
+    			  instruction+=Constants.R4;
+    		  }
+    		  
+    		  if(command[2].equals("R1")) {
+    			  instruction+=Constants.R1;
+    		  }
+    		  else if(command[2].equals("R2")) {
+    			  instruction+=Constants.R2;
+    		  }
+    		  if(command[2].equals("R3")) {
+    			  instruction+=Constants.R3;
+    		  }
+    		  if(command[2].equals("R4")) {
+    			  instruction+=Constants.R4;
+    		  }
+    		  return instruction;
+    	  
+           }
+    	  //obrada u slucaju da se na prvom mjestu nalazi registar a na drugome vrijednost
+    	  else {
+    		  if(command[1].equals("R1")) {
+    			  instruction+=Constants.R1;
+    		  }
+    		  else if(command[1].equals("R2")) {
+    			  instruction+=Constants.R2;
+    		  }
+    		  if(command[1].equals("R3")) {
+    			  instruction+=Constants.R3;
+    		  }
+    		  if(command[1].equals("R4")) {
+    			  instruction+=Constants.R4;
+    		  }  
+    		  instruction+=toBinary(command[2]);
+    		  return instruction;
+    	  }  
+      }
+      
       
       public static String toBinary(String s) {
     	  int number=Integer.parseInt(s);

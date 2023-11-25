@@ -112,7 +112,20 @@ public class Process {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
+	public String toString() {
+		return "Process : [pId = " + this.getPId() + ", name = " + name + ", path = " + path + ", state = "
+				+ this.getProcessState() + "]";
+	}
 	
+
+	public ProcessState getProcessState() {
+	return state;
+	}
+
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return size;
+	}
 	
 
 	

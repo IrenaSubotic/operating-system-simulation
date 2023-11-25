@@ -3,6 +3,7 @@ package kernel;
 import java.util.ArrayList;
 import java.util.List;
 
+//import memory.Memory;
 import shell.Shell;
 
 
@@ -79,6 +80,29 @@ public class ProcessScheduler  {
 			
 		}
 	}
+	public static void printProcesses() {
+		System.out.println("PID\t\t\tProgram\t\t\t\tSize\t\t\tState\t\t\t\tCurrent occupation of memory");
+		for (Process process : allProcesses) {
+			String print = "";
+			print += process.getPId() + "\t\t\t";
+			if (process.getName().length() < 8)
+				print += process.getName() + "\t\t\t\t";
+			else if (process.getName().length() < 12)
+				print += process.getName() + "\t\t\t";
+			else
+				print += process.getName() + "\t\t";
+			print += process.getSize() + "\t\t\t";
+			if (process.getProcessState().toString().length() < 7)
+				print += process.getProcessState() + "\t\t\t\t";
+			else if (process.getProcessState().toString().length() < 9)
+				print += process.getProcessState() + "\t\t\t";
+			else
+				print += process.getProcessState() + "\t\t";
+			//print += Memory.memoryOccupiedByProcessSize(process);
+			System.out.println(print);
+		}
+	}
+	
 		
 		
 		

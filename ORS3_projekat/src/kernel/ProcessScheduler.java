@@ -30,7 +30,30 @@ public class ProcessScheduler  {
 	}
 	public ProcessScheduler() {
 		
+	}public static void blockProcess(int pID) {
+		if(pID < allProcesses.size()) {
+			allProcesses.get(pID).block();
+			return;
+		}
+		System.out.println("Process with this processID " + pID + " doesn't exist!");
 	}
+	
+	public static void unblockProcess(int pID) {
+		if(pID < allProcesses.size()) {
+			allProcesses.get(pID).unblock();
+			return;
+		}
+		System.out.println("Process with this processID " + pID + " doesn't exist!");
+	}
+	
+	public static void terminateProcess(int pID) {
+		if(pID < allProcesses.size()) {
+			allProcesses.get(pID).terminate();
+			return;
+		}
+		System.out.println("Process with this processID " + pID + " doesn't exist!");
+	}
+
 	
 	public static void execute() {
 		while(!readyQueue.isEmpty()) {
@@ -38,7 +61,7 @@ public class ProcessScheduler  {
 	
 
 				Process currentProcess =readyQueue.get(0);
-				currentProcess.setState(ProcessState.RUNNING);
+				currentProcess.setProcessState(ProcessState.RUNNING);
 				int currentProcessWaitingTime = currentProcess.getExecutingTime();
 			//	executeProcess(currentProcess);
 
@@ -67,7 +90,7 @@ public class ProcessScheduler  {
 			Shell.base = startAddress;
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.PC = 0;
-			currentProcess.setState(ProcessState.RUNNING);
+			currentProcess.setProcessState(ProcessState.RUNNING);
 	
 		} else { // we need to continue process
 			System.out.println("Process " + currentProcess.getPId() + " is executing again");
@@ -76,7 +99,7 @@ public class ProcessScheduler  {
 			Shell.base = startAddress;
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.loadValues();
-			currentProcess.setState(ProcessState.RUNNING);
+			currentProcess.setProcessState(ProcessState.RUNNING);
 			
 		}
 	}

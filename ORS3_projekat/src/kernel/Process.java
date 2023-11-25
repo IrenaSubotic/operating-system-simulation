@@ -108,7 +108,7 @@ public class Process {
 		} else if (this.state == ProcessState.BLOCKED) {
 			this.state = ProcessState.TERMINATED;
 		}
-	}public void setState(ProcessState state) {
+	}public void setProcessState(ProcessState state) {
 		// TODO Auto-generated method stub
 		this.state=state;
 	}
@@ -125,6 +125,18 @@ public class Process {
 	public int getSize() {
 		// TODO Auto-generated method stub
 		return size;
+	}
+
+	public void unblock() {
+		// TODO Auto-generated method stub
+		
+			if (this.getProcessState() == ProcessState.BLOCKED) {
+				this.setProcessState(ProcessState.READY);
+				ProcessScheduler.readyQueue.add(this);
+				System.out.println("Process " + this.getName() + " is unblocked!");
+				
+			
+		}
 	}
 	
 

@@ -96,7 +96,7 @@ public class Commands {
 		
 		else if (c.equals("memdisk")) {
 			if (cp.length == 1) 
-				Disk.printDisk();
+				SecondaryMemory.printDisk();
 			else
 				System.out.println("Incorrect parameters!");		
 			}

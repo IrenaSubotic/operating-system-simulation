@@ -69,6 +69,12 @@ public class Process {
 		for (int i = 0; i < valuesOfRegisters.length; i++)
 			this.valuesOfRegisters[i] = valuesOfRegisters[i];
 	}
+	public int[] getValuesOfRegisters() {
+		return valuesOfRegisters;
+	}
+	public void setPcValue(int pcValue) {
+		this.pcValue = pcValue;
+	}
 
 	
 	public int getPcValue() {
@@ -116,7 +122,7 @@ public class Process {
 		return "Process : [pId = " + this.getPId() + ", name = " + name + ", path = " + path + ", state = "
 				+ this.getProcessState() + "]";
 	}
-	
+
 
 	public ProcessState getProcessState() {
 	return state;

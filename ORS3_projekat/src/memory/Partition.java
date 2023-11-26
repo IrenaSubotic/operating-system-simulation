@@ -19,7 +19,7 @@ public class Partition {
 	size=Tree.suitablePartition(used);
 	for(int i=0;i<used;i++) {
 		String temp=process.getInstructions().get(i);
-		data[i]=i;
+		data[i] = Integer.parseInt(temp, 2);
 	}
 	partitions.add(this);
  }

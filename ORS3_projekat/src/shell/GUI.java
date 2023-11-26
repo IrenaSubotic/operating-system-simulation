@@ -1,8 +1,9 @@
+
 package shell;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
@@ -30,6 +31,9 @@ public class GUI extends Application {
 	private PipedOutputStream output= new PipedOutputStream();
 	
 	private static StringBuilder outStringBuilder=new StringBuilder();
+	
+	private OutputStream outputStream;
+	private int length1=0;
 	
 public static void main(String []args) {
 	Shell.boot();
@@ -59,12 +63,13 @@ public void start(Stage primaryStage) throws IOException {
 	
 	InputStream stream =new FileInputStream("src/picture.jpg");
 	Image image=new Image(stream);
-	ImageView iv=new ImageView();
-	iv.setImage(image);
-	iv.setX(0);
-	iv.setY(0);
-	iv.setFitWidth(1050);
-	iv.setPreserveRatio(true);
+	 ImageView iv=new ImageView();
+	 iv.setImage(image);
+	 iv.setX(0);
+	 iv.setY(0);
+	 iv.setFitWidth(1050);
+	 iv.setPreserveRatio(true);
+	
 	
 	part1=new TextArea();
 	part1.setMinWidth(880);
@@ -72,7 +77,7 @@ public void start(Stage primaryStage) throws IOException {
 	part1.setLayoutX(80);
 	part1.setLayoutY(50);
 	part1.setEditable(false);
-	part1.setText("  * * * WELCOME * * *  ");
+	part1.setText("  * * * WELCOME * * *  \n");
 	part1.setStyle("-fx-control-inner-background: #497d59; -fx-text-fill: #000000; ");
     part1.setFont(Font.font("Ariel", FontWeight.BOLD, 20));
     part1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,null,null)));
@@ -86,6 +91,40 @@ public void start(Stage primaryStage) throws IOException {
 	part2.setStyle("-fx-background-color: #497d59;  -fx-text-fill: #000000; ");
 	part2.setFont(Font.font("Ariel", FontWeight.BOLD, 20));
 	part2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,null,null)));
+	
+	part2.setOnAction(e -> {
+		
+		try {
+			
+			byte [] array=part2.getText().getBytes();
+			output.write(array);
+			length1=array.length;
+			
+			Commands.readCommand(input, length1);
+			
+			textToShow=textToShow+">" + part2.getText() + "\n";
+			part1.appendText(textToShow);
+			Commands.getCommand();
+            part2.clear();
+            textToShow="";
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	});
+	
+	 outputStream=new OutputStream() {
+		@Override
+		public void write(int b) throws IOException{
+			outStringBuilder.append((char)b);
+			if(((char)b)=='\n')
+				addTextToPart1();
+		}
+	};
+	Commands.setOut(outputStream);
+	
 	
 	Group root=new Group();
 	root.getChildren().addAll(iv,part1,part2);

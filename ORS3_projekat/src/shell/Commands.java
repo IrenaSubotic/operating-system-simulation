@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PrintStream;
-//import asembler.Operations;
-//import fileSystem.FileSystem;
+
+import fileSystem.FileSystem;
+import asembler.Operations;
+import fileSystem.FileSystem;
 import kernel.Process;
 import kernel.ProcessScheduler;
-//import memory.Disk;
 //import memory.Memory;
 import memory.RAM;
+import memory.SecondaryMemory;
 
 public class Commands {
-  /*private static String command;
+   private static String command;
 
 	public static void getCommand() {
 		command = command.toLowerCase();
@@ -89,14 +91,14 @@ public class Commands {
 		
 		else if (c.equals("memreg")) {
 			if (cp.length == 1) 
-				Operations.printReg();
+				Operations.printRegisters();
 			else
 				System.out.println("Incorrect parameters!");		
 			}
 		
 		else if (c.equals("memdisk")) {
 			if (cp.length == 1) 
-				SecondaryMemory.printDisk();
+				SecondaryMemory.print();
 			else
 				System.out.println("Incorrect parameters!");		
 			}
@@ -164,7 +166,7 @@ public class Commands {
 		
 		else if (c.equals("cls")) {
 			if (cp.length == 1) 
-				GUI.clear();
+				GUI.clearTerminal();
 			else
 				System.out.println("Incorrect parameters!");		
 			}
@@ -225,5 +227,5 @@ public class Commands {
 
 	public static void setOut(OutputStream out) {
 		System.setOut(new PrintStream(out, true));
-	}*/
+	}
 }

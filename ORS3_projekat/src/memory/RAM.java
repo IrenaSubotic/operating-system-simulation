@@ -18,7 +18,7 @@ public static void remove(int start, int[] data) {
 		ram[i]=-1;
 	}
 }
-public static void print() {
+public static void printRAM() {
 	System.out.println("*********************RAM*********************");
 	for(int i=0;i<SIZE;i++) {
 		if(i%16 == 0) {

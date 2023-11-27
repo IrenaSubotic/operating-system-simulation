@@ -1,23 +1,27 @@
 package asembler;
 
+import kernel.ProcessState;
+import shell.Shell;
+
 public class Operations {
 	
-	public static final String hlt="0000";
-	public static final String mov="0001";
-	public static final String add="0010";
-	public static final String sub="0011";
-	public static final String mul="0100";
-	public static final String jmp="1101";
-	public static final String dec="1110";
-	public static final String inc="1111";
-	public static final String div="1000";
-	public static final String cmpe="1001";
-	public static final String cmpd="1010";
+	public static final String hlt ="0000";
+	public static final String mov ="0001";
+	public static final String add ="0010";
+	public static final String sub ="0011";
+	public static final String mul ="0100";
+	public static final String jmp ="1101";
+	public static final String dec ="1110";
+	public static final String inc ="1111";
+	public static final String div ="1000";
+	public static final String jmpe ="1001";
+	public static final String jmpd ="1010";
 	
 	public static Register R1=new Register("R1", Constants.R1,0);
 	public static Register R2=new Register("R2", Constants.R2, 0);
 	public static Register R3=new Register("R3" , Constants.R3,0);
 	public static Register R4=new Register("R4", Constants.R4,0);
+	
 	
 	public static void mov(String reg, String val) {
 		Register r=getRegister(reg);
@@ -104,20 +108,98 @@ public class Operations {
     	Register r=getRegister(reg);
     	r.value=r.value-1;
     }
-	public static void hlt() {
-    	//Shell.currentlyExecuting.setProcessState(ProcessState.DONE);
+    
+    public static void hlt() {
+    	Shell.currentlyExecuting.setProcessState(ProcessState.DONE);
     	
     }
+    
+    
     public static void jmp(String adr) {
     	 int temp=Integer.parseInt(adr,2);
     	 if(temp>=Shell.limit) {
-    		// Shell.currentlyExecuting.setState(ProcessState.TERMINATED)
-    		// System.out.println("Error with address in process": Shell.currentlyExecuting.getName());
-    		 //return;
+    		  Shell.currentlyExecuting.setProcessState(ProcessState.TERMINATED);
+    		  System.out.println("Error with address in process:" + Shell.currentlyExecuting.getName());
+    		  return;
     		 
     	 }
-    	 //Shel.PC=temp;
+    	 Shell.PC=temp;
     }
+    
+    public static boolean jmpe(String reg, String val, String adr){
+    	Register r1=getRegister(reg);
+    	if(val.length()==8) {  //val je vrijednost
+    		if(r1!=null && r1.value==Integer.parseInt(val,2)) {
+    			int temp=Integer.parseInt(adr,2);
+    			if(temp>=Shell.limit) {
+    				 Shell.currentlyExecuting.setProcessState(ProcessState.TERMINATED);
+    				 System.out.println("Error with address in process" + Shell.currentlyExecuting.getName());
+    				return false;
+    			}
+    			Shell.PC=temp;
+    			return true;
+    		}
+    	}
+    	else if(val.length()==4) {  //val je registar
+    		Register r2=getRegister(val);
+    		if(r1!=null && r2!=null && r1.value==r2.value) {
+    			int temp=Integer.parseInt(adr, 2);
+    			if(temp>=Shell.limit) {
+    				 Shell.currentlyExecuting.setProcessState(ProcessState.TERMINATED);
+    				 System.out.println("Error with address in process" + Shell.currentlyExecuting.getName());
+    				return false;
+    			}
+    			Shell.PC=temp;
+    			return true;
+    		}
+    	}
+    	
+		return false;
+    	
+    }
+    
+    
+    
+    public static boolean jmpd(String reg, String val, String adr){
+    	Register r1=getRegister(reg);
+    	if(val.length()==8) {
+    		if(r1!=null && r1.value!=Integer.parseInt(val,2)) {
+    			int temp=Integer.parseInt(adr,2);
+    			if(temp>=Shell.limit) {
+    				 Shell.currentlyExecuting.setProcessState(ProcessState.TERMINATED);
+    				System.out.println("Error with address in process" + Shell.currentlyExecuting.getName());
+    				return false;
+    			}
+    			 Shell.PC=temp;
+    			return true;
+    		}
+    	}
+    	else if(val.length()==4) {
+    		Register r2=getRegister(val);
+    		if(r1!=null && r2!=null && r1.value!=r2.value) {
+    			int temp=Integer.parseInt(adr, 2);
+    			if(temp>=Shell.limit) {
+    				 Shell.currentlyExecuting.setProcessState(ProcessState.TERMINATED);
+    				 System.out.println("Error with address in process" + Shell.currentlyExecuting.getName());
+    				return false;
+    			}
+    			Shell.PC=temp;
+    			return true;
+    		}
+    	}
+    	
+		return false;
+    	
+    }
+    
+    
+    public static void clearRegisters() {
+    	R1.value=0;
+    	R2.value=0;
+    	R3.value=0;
+    	R4.value=0;
+    }
+	
 	
 	
 	private static Register getRegister(String address) {
@@ -136,5 +218,14 @@ public class Operations {
 		
 	}
 	
+  public static void printRegisters() {
+	  System.out.println(" ***** REGISTERS ***** ");
+	  System.out.println("R1 value : [ " + R1.value + " ]");
+	  System.out.println("R2 value : [ " + R2.value + " ]");
+	  System.out.println("R3 value : [ " + R3.value + " ]");
+	  System.out.println("R4 value : [ " + R4.value + " ]");
+  }
+	
 
 }
+

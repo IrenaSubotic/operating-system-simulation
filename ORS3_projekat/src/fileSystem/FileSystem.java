@@ -12,6 +12,7 @@ import asembler.Operations;
 import javafx.scene.control.TreeItem;
 import memory.FileInMemory;
 import shell.Shell;
+import kernel.Process;
 
 public class FileSystem {
 	
@@ -26,12 +27,7 @@ public class FileSystem {
 		createTree(treeItem);
 	}
 	
-	public TreeItem<File> getTreeItem() {
-		treeItem=new TreeItem<>(currentFolder);
-		createTree(treeItem);
-		return treeItem;
-		
-	}
+	
 	public static void createTree(TreeItem<File> rootItem) {
 		try (DirectoryStream<Path> directoryStream=Files.newDirectoryStream(Paths.get(rootItem.getValue().getAbsolutePath()))){
 			for(Path path : directoryStream) {
@@ -54,6 +50,12 @@ public class FileSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public TreeItem<File> getTreeItem() {
+		treeItem=new TreeItem<>(currentFolder);
+		createTree(treeItem);
+		return treeItem;
+		
 	}
 	
 	public static void listFiles() {
@@ -106,8 +108,8 @@ public class FileSystem {
     	}
     }
     
-     public static void createFile(Process p){
-         String name=p.getName().substring(0, p.getName().indexOf('.')) + "_output";
+     public static void createFile(Process p){ 
+         String name = p.getName().substring(0, p.getName().indexOf('.')) + "_output";
          File newFile=new File(p.getPath().getParent() + "\\" + name + ".txt");
          try{
               newFile.createNewFile();
@@ -138,4 +140,3 @@ public class FileSystem {
 	
 
 }
-

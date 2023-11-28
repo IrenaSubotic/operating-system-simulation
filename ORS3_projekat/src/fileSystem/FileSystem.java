@@ -72,11 +72,13 @@ public class FileSystem {
 	public static void changeDirectory(String directory) {
 		if(directory.equals("..") && !currentFolder.equals(rootFolder)) {
 			currentFolder=currentFolder.getParentFile();
+			System.out.println("Directory is changed.");
 		}
 		else {
 			for(TreeItem<File> file: Shell.tree.getTreeItem().getChildren()) {
 				if(file.getValue().getName().equals(directory) && file.getValue().isDirectory())
 					currentFolder=file.getValue();
+				    System.out.println("Directory is changed.");
 			}
 		}
 		
@@ -87,6 +89,7 @@ public class FileSystem {
 		File folder=new File(currentFolder.getAbsolutePath() + "\\" + directory);
 		if(!folder.exists()) {
 			folder.mkdir();
+			System.out.println("Directory is made.");
 	    }
 	}
 	
@@ -94,6 +97,7 @@ public class FileSystem {
 		for(TreeItem<File> file: Shell.tree.getTreeItem().getChildren()) {
 			if(file.getValue().getName().equals(directory) &&  file.getValue().isDirectory()) {
 				file.getValue().delete();
+				System.out.println("Directory is deleted.");
 			}
 			
 		}
@@ -103,7 +107,7 @@ public class FileSystem {
     	for(TreeItem<File> file: Shell.tree.getTreeItem().getChildren()) {
     		if(file.getValue().getName().equals(oldName) && file.getValue().isDirectory()) {
     			file.getValue().renameTo(new File(currentFolder.getAbsolutePath() +"\\" +newName ));
-    			System.out.println("Directory is renamed");
+    			System.out.println("Directory is renamed.");
     		}
     	}
     }

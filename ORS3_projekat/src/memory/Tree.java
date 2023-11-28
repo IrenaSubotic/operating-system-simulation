@@ -194,6 +194,7 @@ public static void loadInRAM(Process process) {
 	}
 	System.out.println(sum);
 	Partition partition=new Partition(process);
+	//Dodavanje particije u listu particija, dodavanje u listu particija u RAM-u
 	RAM.set(sum,partition.getData());
 	
 }

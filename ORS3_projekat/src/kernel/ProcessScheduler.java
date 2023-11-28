@@ -3,6 +3,10 @@ package kernel;
 import java.util.ArrayList;
 import java.util.List;
 
+//import asembler.Operations;
+//import fileSystem.FileSystem;
+//import memory.Memory;
+import memory.RAM;
 //import memory.Memory;
 import shell.Shell;
 
@@ -63,7 +67,7 @@ public class ProcessScheduler  {
 				Process currentProcess =readyQueue.get(0);
 				currentProcess.setProcessState(ProcessState.RUNNING);
 				int currentProcessWaitingTime = currentProcess.getExecutingTime();
-			//	executeProcess(currentProcess);
+				executeProcess(currentProcess);
 
 				do {
 					
@@ -91,6 +95,7 @@ public class ProcessScheduler  {
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.PC = 0;
 			currentProcess.setProcessState(ProcessState.RUNNING);
+			//executeP(currentProcess);
 	
 		} else { // we need to continue process
 			System.out.println("Process " + currentProcess.getPId() + " is executing again");
@@ -100,9 +105,38 @@ public class ProcessScheduler  {
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.loadValues();
 			currentProcess.setProcessState(ProcessState.RUNNING);
-			
+			//executeP(currentProcess);
 		}
 	}
+	/*private static void executeP(Process p) {	
+		while(p.getProcessState() == ProcessState.RUNNING) {
+			int ramValue = RAM.get(Shell.base + Shell.PC);
+			String instruction = Shell.fromIntToInstruction(ramValue);
+			Shell.IR = instruction;
+			Shell.executeMachineInstruction();
+			System.out.println("Process " + p.getName() + " is executing!");
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (p.getProcessState() == ProcessState.BLOCKED) {
+			System.out.println("Process " + p.getName() + " is blocked!");
+			Shell.saveValues();
+		}
+		else if (p.getProcessState() == ProcessState.TERMINATED) {
+			System.out.println("Process " + p.getName() + " is terminated!");
+			Memory.removeProcess(p);
+		} 
+		else if (p.getProcessState() == ProcessState.DONE) {
+			System.out.println("Process " + p.getName() + " is done!");
+			Memory.removeProcess(p);
+			FileSystem.createFile(p); 
+		} 
+		Operations.clearReg();
+	}*/
 	public static void printProcesses() {
 		System.out.println("PID\t\t\tProgram\t\t\t\tSize\t\t\tState\t\t\t\tCurrent occupation of memory");
 		for (Process process : allProcesses) {

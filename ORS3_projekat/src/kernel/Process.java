@@ -1,17 +1,11 @@
 package kernel;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
-import memory.MemoryManager;
 import shell.Shell;
 
 public class Process {
@@ -28,6 +22,26 @@ public class Process {
 
 	
 	public Process(String name) {
+		if (new File(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name).exists()) {
+			this.pid = ProcessScheduler.allProcesses.size();
+			this.state = ProcessState.READY;
+			this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
+			this.name = name;
+			valuesOfRegisters = new int[4];
+			instructions = new ArrayList<>();
+			readFile();
+			this.size = instructions.size();
+			this.executingTime=calculateExecutingTime();
+			ProcessScheduler.allProcesses.add(this);
+			ProcessScheduler.readyQueue.add(this);
+			System.out.println("Program " + name +  " is loaded");
+		} else {
+			System.out.println("Program " + name + " doesn't exist in this directory");
+		}
+	}
+	
+	
+	/*public Process(String name) {
 		ProcessScheduler.allProcesses.add(this);
 		ProcessScheduler.readyQueue.add(this);
 		this.pid=ProcessScheduler.allProcesses.size();
@@ -41,9 +55,12 @@ public class Process {
 	
 		
 	
-	}
-	/*public void readFile() {
-		String data = Shell.disk.readFile(Shell.disk.getFile(name));
+	}*/
+	
+	
+	//cita asemblerske instrukcije iz sekundarne memorije i u listu instructions upisuje masinske instrukcije 
+	   public void readFile() {  
+		String data = Shell.memory.read(Shell.memory.getFile(name));
 		String [] commands = data.split("\\n");
 		for(String command : commands) {
 			if( !command.equals(commands[commands.length-1]) ) {
@@ -57,7 +74,7 @@ public class Process {
 		instructions.add(machineIstruction);
 		}
 	
-	}*/
+	}
 	
 	public ArrayList<String> getInstructions() {
 		return instructions;

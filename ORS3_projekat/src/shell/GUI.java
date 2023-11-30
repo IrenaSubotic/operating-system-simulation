@@ -1,4 +1,3 @@
-
 package shell;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +20,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
 public class GUI extends Application {
+	
 	private static String textToShow;
 	
 	private static TextArea part1=new TextArea();
@@ -67,29 +68,30 @@ public void start(Stage primaryStage) throws IOException {
 	 iv.setImage(image);
 	 iv.setX(0);
 	 iv.setY(0);
-	 iv.setFitWidth(1050);
+	 iv.setFitWidth(1090);
+	 iv.setFitHeight(680);
 	 iv.setPreserveRatio(true);
 	
 	
 	part1=new TextArea();
-	part1.setMinWidth(880);
-	part1.setMinHeight(450);
-	part1.setLayoutX(80);
+	part1.setMinWidth(955);
+	part1.setMinHeight(480);
+	part1.setLayoutX(55);
 	part1.setLayoutY(50);
 	part1.setEditable(false);
 	part1.setText("  * * * WELCOME * * *  \n");
-	part1.setStyle("-fx-control-inner-background: #497d59; -fx-text-fill: #000000; ");
-    part1.setFont(Font.font("Ariel", FontWeight.BOLD, 20));
+	part1.setStyle("-fx-control-inner-background: #497d59; -fx-text-fill: #FFFFFF; ");
+    part1.setFont(Font.font("Ariel", FontWeight.BOLD, 19));
     part1.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,null,null)));
     
 	
 	part2=new TextField();
-	part2.setMinWidth(880);
+	part2.setMinWidth(955);
 	part2.setMinHeight(60);
-	part2.setLayoutX(80);
-	part2.setLayoutY(550);
-	part2.setStyle("-fx-background-color: #497d59;  -fx-text-fill: #000000; ");
-	part2.setFont(Font.font("Ariel", FontWeight.BOLD, 20));
+	part2.setLayoutX(55);
+	part2.setLayoutY(570);
+	part2.setStyle("-fx-background-color: #497d59;  -fx-text-fill: #FFFFFF; ");
+	part2.setFont(Font.font("Ariel", FontWeight.BOLD, 19));
 	part2.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,null,null)));
 	
 	part2.setOnAction(e -> {
@@ -129,7 +131,7 @@ public void start(Stage primaryStage) throws IOException {
 	Group root=new Group();
 	root.getChildren().addAll(iv,part1,part2);
 	
-	Scene scena=new Scene(root,1050,650);
+	Scene scena=new Scene(root,1060,675);
 	primaryStage.setScene(scena);
 	primaryStage.setResizable(false);
 	primaryStage.show();

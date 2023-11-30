@@ -2,13 +2,16 @@ package shell;
 
 import java.io.File;
 
+import asembler.Constants;
 import asembler.Operations;
 import fileSystem.FileSystem;
 import kernel.ProcessScheduler;
+import kernel.Process;
 import memory.MemoryManager;
 import memory.SecondaryMemory;
 
 public class Shell {
+	
       public static FileSystem tree;
       public static MemoryManager manager;
       public static SecondaryMemory memory;
@@ -23,7 +26,7 @@ public class Shell {
     	  new ProcessScheduler();
     	  memory=new SecondaryMemory();
     	  Shell.manager=new MemoryManager();
-    	  tree=new FileSystem(new File("PROGRAMS"));
+    	  tree=new FileSystem(new File("Programs"));
       }
       
       
@@ -152,7 +155,8 @@ public class Shell {
     		  PC++;
  
       }
-       public static String assemblerToMachineInstruction(String line) {
+      
+      public static String assemblerToMachineInstruction(String line) {
     	  String instruction="";
     	  String [] command=line.split("[ |, ]");
     	  
@@ -328,13 +332,41 @@ public class Shell {
     	  return bin;
     	  
       }
+      //pretvara vrijednost iz ram memorije (int) u masinsku instrukciju
+      public static String fromIntToInstruction(int val) {
+  		String inst = Integer.toBinaryString(val);
+  		if( inst == "0")
+  			inst = "0000";
+  		else if( inst.length() == 8 )
+  			return inst;
+  		else if( inst.length() <= 12 ) {
+  			while ( inst.length() < 12)
+  				inst = "0" + inst;
+  		}
+  		else if( inst.length() <= 16 ) {
+  			while ( inst.length() < 16 )
+  				inst = "0" + inst;
+  		}
+  	  	else if( inst.length() <= 20 ) {
+  			while ( inst.length() < 20)
+  				inst = "0" + inst;
+  		}
+  		else if(  inst.length() <= 24 ) {
+  			while ( inst.length() < 24 )
+  				inst = "0" + inst;
+  		}
+  		return inst;
+  	}
       
+      
+      //cuva vrijednost programskog brojaca i registara procesa koji je prekinut od strane rasporedjivaca
       public static void saveValues() {
     	  int [] registers= {Operations.R1.value, Operations.R2.value, Operations.R3.value, Operations.R4.value};
     	  currentlyExecuting.setValuesOfRegisters(registers);
     	  currentlyExecuting.setPcValue(PC);
     	  
       }
+      //ucitava zapamcene vrijednost kako bi proces nastavio izvsavanje kao da prekida nije ni bilo
       public static void loadValues() {
     	  int [] registers=currentlyExecuting.getValuesOfRegisters();
     	  Operations.R1.value=registers[0];

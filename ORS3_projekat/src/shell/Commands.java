@@ -7,10 +7,9 @@ import java.io.PrintStream;
 
 import fileSystem.FileSystem;
 import asembler.Operations;
-import fileSystem.FileSystem;
 import kernel.Process;
 import kernel.ProcessScheduler;
-//import memory.Memory;
+import memory.MemoryManager;
 import memory.RAM;
 import memory.SecondaryMemory;
 
@@ -75,9 +74,9 @@ public class Commands {
 				System.out.println("Incorrect parameters!");	
 			}
 		
-		else if (c.equals("mem")) {
+		 else if (c.equals("mem")) {
 			if (cp.length == 1) 
-				Memory.printMemory();
+				MemoryManager.printMemory();
 			else
 				System.out.println("Incorrect parameters!");		
 			}
@@ -189,10 +188,10 @@ public class Commands {
 				help += "REN" + "\t\t\t\t" + "Renames directories.\n";
 				help += "MEM" + "\t\t\t" + "Shows RAM, registers and disk.\n";
 				help += "MEMRAM" + "\t\t" + "Shows RAM.\n";
-				help += "MEMREG" + "\t\t" + "Shows registers.\n";
+				help += "MEMREG" + "\t\t" + "        Shows registers.\n";
 				help += "MEMDISK" + "\t\t" + "Shows disk.\n";
 				help += "LOAD" + "\t\t\t" + "Loads process.\n";
-				help += "EXECUTE" + "\t\t" + "Starts executing processes.\n";
+				help += "EXECUTE" + "\t\t" + "       Starts executing processes.\n";
 				help += "PROC" + "\t\t\t" + "Lists processes.\n";
 				help += "TERM" + "\t\t\t" + "Terminates process.\n";
 				help += "BLOCK" + "\t\t\t" + "Blocks process.\n";

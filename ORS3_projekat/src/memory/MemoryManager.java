@@ -17,11 +17,11 @@ public static void printMemory() {
 	Operations.printRegisters();
 	SecondaryMemory.print();
 }
-public void removeProcess(Process process) {
+public static void removeProcess(Process process) {
 	Tree.deleteNode(process);
 	removePartition(Partition.getPartitionByProcess(process));
 }
-public void removePartition(Partition partition) {
+public static void removePartition(Partition partition) {
 	if(partitionsInRAM.contains(partition)) {
 		RAM.remove(partition.getPositionInMemory(), partition.getSize());
 		

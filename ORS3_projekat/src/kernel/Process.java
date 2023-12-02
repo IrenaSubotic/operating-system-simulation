@@ -1,17 +1,11 @@
 package kernel;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
-import memory.MemoryManager;
 import shell.Shell;
 
 public class Process {
@@ -28,22 +22,30 @@ public class Process {
 
 	
 	public Process(String name) {
-		ProcessScheduler.allProcesses.add(this);
-		ProcessScheduler.readyQueue.add(this);
-		this.pid=ProcessScheduler.allProcesses.size();
-		state=ProcessState.READY;
-	//	this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
-		this.name=name;
-	//	readFile();
-		this.size = instructions.size();
-		this.executingTime=calculateExecutingTime();
-		valuesOfRegisters = new int[4];
-	
-		
-	
+		if (new File(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name).exists()) {
+			this.pid = ProcessScheduler.allProcesses.size();
+			this.state = ProcessState.READY;
+			this.path = Paths.get(Shell.tree.getCurrentFolder().getAbsolutePath() + "\\" + name);
+			this.name = name;
+			valuesOfRegisters = new int[4];
+			instructions = new ArrayList<>();
+			readFile();
+			this.size = instructions.size();
+			this.executingTime=calculateExecutingTime();
+			ProcessScheduler.allProcesses.add(this);
+			ProcessScheduler.readyQueue.add(this);
+			System.out.println("Program " + name +  " is loaded");
+		} else {
+			System.out.println("Program " + name + " doesn't exist in this directory");
+		}
 	}
-	/*public void readFile() {
-		String data = Shell.disk.readFile(Shell.disk.getFile(name));
+	
+
+	
+	
+	//cita asemblerske instrukcije iz sekundarne memorije i u listu instructions upisuje masinske instrukcije 
+	   public void readFile() {  
+		String data = Shell.memory.read(Shell.memory.getFile(name));
 		String [] commands = data.split("\\n");
 		for(String command : commands) {
 			if( !command.equals(commands[commands.length-1]) ) {
@@ -57,7 +59,7 @@ public class Process {
 		instructions.add(machineIstruction);
 		}
 	
-	}*/
+	}
 	
 	public ArrayList<String> getInstructions() {
 		return instructions;
@@ -93,7 +95,7 @@ public class Process {
 	}
 	public int getStartAddress() {
 		return this.startAddress;
-	 
+
 	}
 	private int calculateExecutingTime() {
 		// TODO Auto-generated method stub
@@ -126,36 +128,7 @@ public class Process {
 		return "Process : [pId = " + this.getPId() + ", name = " + name + ", path = " + path + ", state = "
 				+ this.getProcessState() + "]";
 	}
-	public static void main(String[] args) {
-		Process p1=new Process("pomocni");
-		System.out.println(p1.pid);
-		Process p2=new Process("stepen");
-		System.out.println(p2.pid);
-		Process p3=new Process("faktorijel");
-		System.out.println(p3.pid);
-		Process p4=new Process("suma");
-		System.out.println(p4.pid);
-		Process p5=new Process("pom");
-		System.out.println(p5.pid);
-		System.out.println("==================");
-		System.out.println(p1.executingTime);
-		System.out.println(p2.executingTime);
-		System.out.println(p3.executingTime);
-		System.out.println(p4.executingTime);
-		System.out.println(p5.executingTime);
-		System.out.println("==================");
-		ProcessScheduler.sortProcesses();
-		for(Process process:ProcessScheduler.readyQueue) {
-			System.out.println(process.getPId());
-		}
-		System.out.println("==================");
-		ProcessScheduler ll=new ProcessScheduler();
-		ll.start();
-		System.out.println("==================");
-		for(int i=0;i<p1.instructions.size();i++) {
-			System.out.println(p1.instructions.get(i));
-		}
-	}
+
 
 	public ProcessState getProcessState() {
 	return state;
@@ -178,7 +151,4 @@ public class Process {
 		}
 	}
 	
-
-	
-
 }

@@ -54,13 +54,6 @@ public static Partition getPartitionByAddress(int address) {
  public Process getProcess() {
 	 return process;
  }
- public static void main(String[] args) {
-	 Node root=new Node(1024);
-	 Tree tree=new Tree(root);
-	Process pr=new Process("pom");
-	Partition p=new Partition(pr);
-	System.out.println(p.getSize());
-}
 
 public static void initialize() {
 	// TODO Auto-generated method stub

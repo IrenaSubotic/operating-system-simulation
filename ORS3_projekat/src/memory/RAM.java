@@ -13,8 +13,8 @@ public static void set(int start,int[] data) {
 		ram[i]=data[i-start];
 	}
 }
-public static void remove(int start, int[] data) {
-	for(int i=start;i<data.length + start;i++) {
+public static void remove(int start, int size) {
+	for(int i=start;i<size + start;i++) {
 		ram[i]=-1;
 	}
 }
@@ -26,5 +26,10 @@ public static void printRAM() {
 			}
 		System.out.print(ram[i]+" ");
 	}
+}
+public static void main(String[] args) {
+	RAM ram=new RAM();
+	ram.initialize();
+	ram.printRAM();
 }
 }

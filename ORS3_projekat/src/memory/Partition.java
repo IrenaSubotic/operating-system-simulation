@@ -19,7 +19,7 @@ public class Partition {
 	size=Tree.suitablePartition(used);
 	for(int i=0;i<used;i++) {
 		String temp=process.getInstructions().get(i);
-		data[i] =i;
+		data[i] = Integer.parseInt(temp, 2);
 	}
 	partitions.add(this);
  }
@@ -42,6 +42,9 @@ public static Partition getPartitionByAddress(int address) {
  public int getPositionInMemory() {
 	 return positionInMemory;
  }
+ public void setPositionInMemory(int i) {
+	 positionInMemory=i;
+ }
  public int[] getData() {
 	 return data;
  }
@@ -51,10 +54,16 @@ public static Partition getPartitionByAddress(int address) {
  public Process getProcess() {
 	 return process;
  }
+ public static void main(String[] args) {
+	 Node root=new Node(1024);
+	 Tree tree=new Tree(root);
+	Process pr=new Process("pom");
+	Partition p=new Partition(pr);
+	System.out.println(p.getSize());
+}
 
 public static void initialize() {
 	// TODO Auto-generated method stub
 	partitions=new ArrayList<>();
 }
 }
-

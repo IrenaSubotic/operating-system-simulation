@@ -67,6 +67,12 @@ public static int loadInRAM(Process process) {
 	}
 	
 	}
+	public static int memoryOccupiedByProcess(Process process) {
+		for (Partition partition : partitionsInRAM)
+			if (partition.getProcess().getPId() == process.getPId())
+				return partition.getSize();
+		return 0;
+	}
 	public static void main(String[] args) {
 		String weirdWord="10000";
 		int res=Integer.parseInt(weirdWord, 2);

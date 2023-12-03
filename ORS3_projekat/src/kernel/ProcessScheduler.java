@@ -37,6 +37,15 @@ public class ProcessScheduler extends Thread {
 					readyQueue.set(i,readyQueue.get(j));
 					readyQueue.set(j, temp);
 				}
+				else if(readyQueue.get(j).getExecutingTime()==readyQueue.get(i).getExecutingTime()){
+					      if(readyQueue.get(j).getPId()<readyQueue.get(i).getPId()) {
+					    	  temp=readyQueue.get(i);
+								readyQueue.set(i,readyQueue.get(j));
+								readyQueue.set(j, temp);
+					      }
+					
+					
+				}
 			}
 		
 		}

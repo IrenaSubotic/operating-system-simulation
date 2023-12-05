@@ -156,7 +156,7 @@ public static void deleteNode(Process process) {
 	n.setUsage(0);
 	int br=height(root);
 	while(c<br) {
-		System.out.println(split(root));
+		split(root);
 		c++;
 	}
 }

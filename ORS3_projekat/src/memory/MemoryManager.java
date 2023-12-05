@@ -14,7 +14,9 @@ public MemoryManager() {
 }
 public static void printMemory() {
 	RAM.printRAM();
+	System.out.println();
 	Operations.printRegisters();
+	System.out.println();
 	SecondaryMemory.print();
 }
 public static void removeProcess(Process process) {

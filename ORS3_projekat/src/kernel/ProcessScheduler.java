@@ -17,8 +17,9 @@ public class ProcessScheduler extends Thread {
 	}
 	
 	public void run() {
-		  sortProcesses();
+		  
 		while(!readyQueue.isEmpty()) {
+			sortProcesses();
 			Process next = readyQueue.get(0);
 			readyQueue.remove(0);
 			executeProcess(next);
@@ -81,20 +82,22 @@ public class ProcessScheduler extends Thread {
 		
 		if (currentProcess.getPcValue() == -1) { // we need to start process
 			Shell.currentlyExecuting = currentProcess;
-			System.out.println("Process " + currentProcess.getPId() + " started to execute");
-			int startAddress = Shell.manager.loadProcess(currentProcess);
-			currentProcess.setStartAddress(startAddress);
-			Shell.base = startAddress;
+			System.out.println("Process " + currentProcess.getName() + " started to execute");
+			//int startAddress = MemoryManager.loadProcess(currentProcess);
+			//System.out.println("-----"+startAddress);
+			//currentProcess.setStartAddress(startAddress);
+			Shell.base = currentProcess.getStartAddress();
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.PC = 0;
 			currentProcess.setProcessState(ProcessState.RUNNING);
 			executeP(currentProcess);
 	
 		} else { // we need to continue process
-			System.out.println("Process " + currentProcess.getPId() + " is executing again");
-			int startAddress = Shell.manager.loadProcess(currentProcess);
-			currentProcess.setStartAddress(startAddress);
-			Shell.base = startAddress;
+			Shell.currentlyExecuting = currentProcess;
+			System.out.println("Process " + currentProcess.getName() + " is executing again");
+			//int startAddress = MemoryManager.loadProcess(currentProcess);
+			//currentProcess.setStartAddress(startAddress);
+			Shell.base =  currentProcess.getStartAddress();
 			Shell.limit = currentProcess.getInstructions().size();
 			Shell.loadValues();
 			currentProcess.setProcessState(ProcessState.RUNNING);
@@ -104,7 +107,9 @@ public class ProcessScheduler extends Thread {
 	
 	 private static void executeP(Process p) {	
 		while(p.getProcessState() == ProcessState.RUNNING) {
+			//System.out.println(Shell.base +"   "+ Shell.PC);
 			int ramValue = RAM.get(Shell.base + Shell.PC);
+			
 			String instruction = Shell.fromIntToInstruction(ramValue);
 			Shell.IR = instruction;
 			Shell.executeMachineInstruction();
@@ -154,7 +159,7 @@ public class ProcessScheduler extends Thread {
 		}
 	}*/
 	public static void printProcesses() {
-		System.out.println("PID\t\t\tProgram\t\t\t\tSize\t\t\tState\t\t\t\tCurrent occupation of memory");
+		System.out.println("PID\t\t\tProgram\t\t\t\tSize\t\t\tState\t\t\tExecution time\t\t\t\tCurrent occupation of memory");
 		for (Process process : allProcesses) {
 			String print = "";
 			print += process.getPId() + "\t\t\t";
@@ -165,12 +170,16 @@ public class ProcessScheduler extends Thread {
 			else
 				print += process.getName() + "\t\t";
 			print += process.getSize() + "\t\t\t";
+			
 			if (process.getProcessState().toString().length() < 7)
 				print += process.getProcessState() + "\t\t\t\t";
 			else if (process.getProcessState().toString().length() < 9)
 				print += process.getProcessState() + "\t\t\t";
 			else
 				print += process.getProcessState() + "\t\t";
+			
+			print +=process.getExecutingTime() + "\t\t\t";
+			
 			print += MemoryManager.memoryOccupiedByProcess(process);
 			System.out.println(print);
 		}

@@ -1,5 +1,6 @@
 package kernel;
 
+import memory.MemoryManager;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,6 +35,7 @@ public class Process {
 			this.executingTime=calculateExecutingTime();
 			ProcessScheduler.allProcesses.add(this);
 			ProcessScheduler.readyQueue.add(this);
+			startAddress=MemoryManager.loadProcess(this);
 			System.out.println("Program " + name +  " is loaded");
 		} else {
 			System.out.println("Program " + name + " doesn't exist in this directory");
@@ -106,7 +108,7 @@ public class Process {
 		return executingTime;
 	}
 	public void block() {
-		if (this.state == ProcessState.READY) {
+		if (this.state == ProcessState.RUNNING) {
 			this.state = ProcessState.BLOCKED;
 			if (ProcessScheduler.readyQueue.contains(this))
 				ProcessScheduler.readyQueue.remove(this);

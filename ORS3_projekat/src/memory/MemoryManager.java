@@ -32,13 +32,13 @@ public static void removePartition(Partition partition) {
 public static int loadInRAM(Process process) {
 	   int sum=0;
 		int pos=Tree.position(process);
-		System.out.println(pos);
+		//System.out.println(pos);
 		int size=Tree.list.get(pos).getSize();
 		int usage=Tree.occupationList.get(pos);
 		for(int i=0;i<pos;i++){
 		   sum+=Tree.list.get(i).getSize();
 		}
-		System.out.println(sum);
+		//System.out.println(sum);
 		Partition partition=new Partition(process);
 		partition.setPositionInMemory(sum);
 	    partitionsInRAM.add(partition);
@@ -46,7 +46,7 @@ public static int loadInRAM(Process process) {
 		RAM.set(sum,partition.getData());
 		return sum;
 	}
-	public int load(Process process) {
+	public static int load(Process process) {
 		// TODO Auto-generated method stub
 		Tree.insertNode(process);
 		Tree.fillLists(Tree.root);
@@ -54,10 +54,11 @@ public static int loadInRAM(Process process) {
 		Tree.list.clear();
 		Tree.nodesList.clear();
 		Tree.occupationList.clear();
+		//System.out.println("Position"+position);
 		return position;
 	}
 	
-	public int loadProcess(Process process) {
+	public static int loadProcess(Process process) {
 	Partition partition=Partition.getPartitionByProcess(process);
 	if(!partitionsInRAM.contains(partition)) {
 		return load(process);

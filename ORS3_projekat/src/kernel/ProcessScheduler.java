@@ -168,7 +168,7 @@ public class ProcessScheduler extends Thread {
 			else if (process.getName().length() < 12)
 				print += process.getName() + "\t\t\t";
 			else
-				print += process.getName() + "\t\t";
+				print += process.getName() + "\t\t\t";
 			print += process.getSize() + "\t\t\t";
 			
 			if (process.getProcessState().toString().length() < 7)
@@ -178,7 +178,7 @@ public class ProcessScheduler extends Thread {
 			else
 				print += process.getProcessState() + "\t\t";
 			
-			print +=process.getExecutingTime() + "\t\t\t";
+			print +=process.getExecutingTime() + "\t\t\t\t\t\t\t\t\t";
 			
 			print += MemoryManager.memoryOccupiedByProcess(process);
 			System.out.println(print);

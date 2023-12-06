@@ -7,7 +7,7 @@ public class SecondaryMemory {
 	private final int SIZE=2048;
 	private static Block[] blocks;
 	private int numberOfBlocks;
-	private ArrayList<FileInMemory> listOfFiles=new ArrayList<>();
+	private static ArrayList<FileInMemory> listOfFiles=new ArrayList<>();
 	
 	public SecondaryMemory() {
 		numberOfBlocks=SIZE / Block.getSize();
@@ -90,14 +90,25 @@ public class SecondaryMemory {
 		}
 		return result;
 	}
-	public void print() {
+	public static void print() {
 		String spacing="**********************************************************************************";
 		System.out.println(spacing);
-		System.out.println("Name\t\tStart\t\tLength");
+		System.out.println("Name\t\t\t\t\tStart\t\t\t\t\tLength");
 		System.out.println(spacing);
 		for(FileInMemory file: listOfFiles) {
-			System.out.println(file.getName()+"\t\t"+file.getStart().block.getAddress()+"\t\t"+file.getLength()
-		);}
+			String print = "";
+			if (file.getName().length() <8)
+				print += file.getName() + "\t\t\t\t\t";
+			else if (file.getName().length() <12)
+				print += file.getName() + "\t\t\t";
+			else if (file.getName().length() < 16)
+				print += file.getName() + "\t\t\t";
+			else
+				print += file.getName() + "\t\t";
+			print += file.getStart().block.getAddress() + "\t\t\t\t";
+			print += file.getLength();
+			System.out.println(print);
+	}
 	}
 	public int numberOfFreeBlocks() {
 		int counter=0;
